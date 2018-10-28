@@ -1,0 +1,14 @@
+CIRCLE
+RECTANGLE
+SET_COLOR
+LINE
+POINT
+1
+1.22
+;	
+END
+	
+ 
+create error
+
+	
