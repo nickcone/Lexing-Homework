@@ -1,26 +1,19 @@
 %{
 #include <stdio.h>
-int lineNum=0;
+#include <stdlib.h>
+#include "zjs.tab.h"
 %}
 
 %%
-
-END {printf("\nEXIT INTERPRETER\n");}
-; {printf("\nEND STATEMENT");}
-POINT {printf("POINT\n");}
-LINE {printf("LINE\n");}
-CIRCLE {printf("CIRCLE\n");}
-RECTANGLE {printf("RECTANGLE\n");}
-SET_COLOR {printf("SET COLOR\n");}
-[0-9]+\.[0-9]* {printf("FLOAT");}
-[0-9]+[^0-9] {printf("INTEGER\n");}
-[ \t] 
-[\n] {lineNum++;}
-. {printf("\nError:User messed up on Line: "); printf("%d",lineNum); return 1;}
-
+end 		  return END;
+;		  return END_STATEMENT;
+point             return POINT;
+line		  return LINE;
+circle            return CIRCLE;
+rectangle         return RECTANGLE;
+set_color         return SET_COLOR;
+[0-9]+         	  { yylval.iVal = atoi(yytext); return INT; }
+[0-9]+\.[0-9]*    {yylval.fVal = atof(yytext); return FLOAT; }
+[ \t\n]+	  ;
+.                 printf("User Input Error");
 %%
-int main(int argc, char** argv){
-	yylex();
-	return 0;
-}
-
